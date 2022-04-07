@@ -1,0 +1,34 @@
+#!/bin/bash
+
+for fname in "$@"
+do
+touch "$fname".{cpp,hpp}
+echo -e \
+'#ifndef '${fname^^}'_HPP'"\n"\
+'#define '${fname^^}'_HPP'"\n\n"\
+'#include <iostream>'"\n\n"\
+"class $fname""\n"\
+'{'"\n"\
+"\tprivate:""\n\n"\
+"\tpublic:""\n"\
+'\t\t'"$fname"'();'"\n"\
+'\t\t'"$fname"'(const '"$fname"' &obj);'"\n"\
+'\t\t'"$fname"'& operator=(const '"$fname"' &obj);'"\n"\
+'\t\t~'"$fname"'();'"\n"\
+'};'"\n\n"\
+'#endif'\
+>> "$fname".hpp
+echo -e \
+'#include "'"$fname"'.hpp"'"\n\n"\
+'//\tCONSTRUCTORS | DESTRUCTOR'"\n\n"\
+"$fname"'::'"$fname"'()'"\n"\
+'{}'"\n\n"\
+"$fname"'::'"$fname"'(const '"$fname"' &obj)'"\n"\
+'{}'"\n\n"\
+"$fname"'& '"$fname"'::operator=(const '"$fname"' &obj)'"\n"\
+'{}'"\n\n"\
+"$fname"'::~'"$fname"'()'"\n"\
+'{}'"\n\n"\
+'//\tMEMBER FUNCTIONS'"\n"\
+>> "$fname".cpp
+done
