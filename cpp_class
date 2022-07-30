@@ -2,10 +2,11 @@
 
 for fname in "$@"
 do
+upper_fname=$(echo -n "$fname" | tr [:lower:] [:upper:])
 touch "$fname".{cpp,hpp}
 echo -e \
-'#ifndef '${fname^^}'_HPP'"\n"\
-'#define '${fname^^}'_HPP'"\n\n"\
+'#ifndef '"$upper_fname"'_HPP'"\n"\
+'#define '"$upper_fname"'_HPP'"\n\n"\
 '#include <iostream>'"\n\n"\
 "class $fname""\n"\
 '{'"\n"\
